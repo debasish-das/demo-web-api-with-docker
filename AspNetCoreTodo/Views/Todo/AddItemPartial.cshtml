@@ -1,0 +1,59 @@
+@model TodoItem
+
+<form asp-action="AddItem" method="POST">
+	<tr>
+		<td style="line-height:2.2;">
+			New Task
+		</td>
+		<td>
+			<div>
+				<input asp-for="Title" class="form-control" placeholder="Enter Title" required>
+			</div>
+			<div>
+				@Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+			</div>
+		</td>
+		<td>
+			<div>
+				<select name="Priority" class="form-control" id="Priority">
+					<option value="0">Select Priority</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</div>
+			<div>
+				@Html.ValidationMessageFor(model => model.Priority, "", new { @class = "text-danger" })
+			</div>
+		</td>
+		<td>
+			<div>
+				<input asp-for="StartDate" class="form-control">
+			</div>
+			<div>
+				@Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+			</div>
+		</td>
+		<td>
+			<div>
+				<input asp-for="DueAt" class="form-control">
+			</div>
+			<div>
+				@Html.ValidationMessageFor(model => model.DueAt, "", new { @class = "text-danger" })
+			</div>
+		</td>
+		<td>
+			<div>
+				<input asp-for="NumberOfDays" class="form-control" placeholder="Days" min="0">
+			</div>
+			<div>
+				@Html.ValidationMessageFor(model => model.NumberOfDays, "", new { @class = "text-danger" })
+			</div>
+		</td>
+		<td>
+			<button type="submit" class="btn btn-success">Add Task</button>
+		</td>
+	</tr>
+</form>

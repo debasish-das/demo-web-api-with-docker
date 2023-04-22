@@ -1,0 +1,45 @@
+﻿@model TodoItem
+<tr>
+	<td>
+		<form asp-action="MarkDone" method="POST">
+			<input type="checkbox" class="done-checkbox">
+			<input type="hidden" name="id" value="@Model.Id">
+		</form>
+	</td>
+
+	<form asp-action="UpdateItem" method="POST">
+	<td>
+		<input asp-for="Title" class="form-control item-update" required>
+		<span>@Model.Title</span>
+	</td>
+	<td>
+		<select name="Priority" class="form-control item-update" id="Priority">
+			<option value="0">Select Priority</option>
+				@for (int i = 1; i < 6; i++)
+				{
+					var selected = i == Model.Priority ? "selected" : "";
+					@Html.Raw($"<option value=\"{i}\" {selected}>{i}</option>")
+				}
+		</select>
+		<span>@Model.getPriority()</span>
+	</td>
+	<td>
+		<input asp-for="StartDate" class="form-control item-update">
+		<span>@Model.getStartDate()</span>
+	</td>
+	<td>
+		<input asp-for="DueAt" class="form-control item-update">
+		<span>@Model.getDueAt()</span>
+	</td>
+	<td>
+		<input asp-for="NumberOfDays" class="form-control item-update" min="0">
+		<span>@Model.getNumberOfDays()</span>
+	</td>
+	<td>
+		<input asp-for="Id" type="hidden">
+		<button type="button" class="btn btn-primary edit-button">Edit</button>
+		<input type="submit" class="btn btn-warning save-button" value="Save" />
+		<button type="button" class="btn btn-secondary me-2 cancel-button">Cancel</button>
+	</td>
+	</form>
+</tr>

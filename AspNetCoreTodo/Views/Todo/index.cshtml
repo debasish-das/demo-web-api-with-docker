@@ -1,0 +1,49 @@
+@model TodoViewModel
+
+@{
+    ViewData["Title"] = "Manage your todo list";
+    ViewContext.FormContext = new FormContext();
+}
+
+<h4>@ViewData["Title"]</h4>
+
+@if (ViewBag.EditTodoError != null)
+{
+    <ul class="text-danger border bg-light p-4">
+        <li><b>Update Error:</b></li>
+        @foreach (var item in ViewBag.EditTodoError)
+        {
+            <li>@item</li>
+        }
+    </ul>
+}
+
+@if (ViewBag.AddTodoError != null)
+{
+    <ul class="text-danger border bg-light p-4">
+        <li><b>Add Error:</b></li>
+        @foreach (var item in ViewBag.AddTodoError)
+        {
+            <li>@item</li>
+        }
+    </ul>
+}
+
+<table class="table table-hover table-bordered mt-4">
+    <thead>
+        <tr class="bg-light">
+            <th>&#x2714;</th>
+            <th>Task</th>
+            <th>Priority</th>
+            <th>Start Date</th>
+            <th>Due Date</th>
+            <th style="width:10%;">Duration</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+    @await Html.PartialAsync("AddItemPartial", new TodoItem())
+    @foreach (var item in Model.Items)
+    {
+        @await Html.PartialAsync("UpdateItemPartial", item)
+    }
+</table>
