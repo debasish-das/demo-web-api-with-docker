@@ -30,8 +30,8 @@ public class HomeController : Controller
     {
         HttpClient httpClient = new()
         {
-            BaseAddress = new Uri("http://localhost:8080"),
-        };
+            BaseAddress = new Uri("http://api"),
+        };//http://localhost:8080/WeatherForecast
 
         var response = await httpClient.GetFromJsonAsync<List<WeatherForecast>>("WeatherForecast");
         return response;

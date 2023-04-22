@@ -1,0 +1,10 @@
+TodoMvc:
+    build: ./TodoMvc/AspNetCoreTodo
+    links:
+        - myapi:localhost
+    ports:
+        - "80:80"
+myapi:
+    build: .
+    ports:
+        - "80"

@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  mvc:
+    build: ./TodoMvc
+    ports:
+      - 8085:80
+  api:
+    build: .
+    ports:
+      - 8080:80
