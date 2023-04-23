@@ -16,10 +16,12 @@ namespace AspNetCoreTodo.Services
 
         public TodoApiService(ApplicationDbContext context)
         {
+            var todoUri = System.Environment.GetEnvironmentVariable("todoApiUrl") ?? "";
             _httpClient = new()
             {
+                BaseAddress = new Uri(todoUri),
                 // BaseAddress = new Uri("http://api"),
-                BaseAddress = new Uri("http://localhost:8080/"),
+                // BaseAddress = new Uri("http://localhost:8080/"),
             };
             _context = context;
         }

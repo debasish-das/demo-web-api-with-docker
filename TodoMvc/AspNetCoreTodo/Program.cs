@@ -34,6 +34,13 @@ else
     app.UseHsts();
 }
 
+var todoApiUrl = "http://localhost:8080/";
+if (!app.Environment.IsDevelopment())
+{
+    todoApiUrl = "http://api";
+}
+System.Environment.SetEnvironmentVariable("todoApiUrl", todoApiUrl);
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
