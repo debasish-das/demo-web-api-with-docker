@@ -12,25 +12,18 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AspNetCoreTodo.Controllers
 {
-    [Authorize]
     public class TodoController : Controller
     {
         private readonly ITodoItemService _todoItemService;
-        private readonly UserManager<IdentityUser> _userManager;
 
         public TodoController(ITodoItemService todoItemService, UserManager<IdentityUser> userManager)
         {
             _todoItemService = todoItemService;
-            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
         {
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser == null) return Challenge();
-
-            // Get to-do items from database
-            var items = await _todoItemService.GetIncompleteItemsAsync(currentUser);
+            var items = await _todoItemService.GetIncompleteItemsAsync();
 
             Array.Sort(items);
 
@@ -48,7 +41,6 @@ namespace AspNetCoreTodo.Controllers
             return View(model);           
         }
 
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddItem(TodoItem newItem)
         {
             if (!ModelState.IsValid)
@@ -57,10 +49,6 @@ namespace AspNetCoreTodo.Controllers
                 TempData["AddErrors"] = GetErrors(modelErrors);
                 return RedirectToAction("Index");
             }
-
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser == null) return Challenge();
-            newItem.UserId = currentUser.Id;
 
             var successful = await _todoItemService.AddItemAsync(newItem);
             if (!successful)
@@ -71,7 +59,6 @@ namespace AspNetCoreTodo.Controllers
             return RedirectToAction("Index");
         }
 
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> MarkDone(Guid id)
         {
             if (id == Guid.Empty)
@@ -79,10 +66,7 @@ namespace AspNetCoreTodo.Controllers
                 return RedirectToAction("Index");
             }
 
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser == null) return Challenge();
-
-            var successful = await _todoItemService.MarkDoneAsync(id, currentUser);
+            var successful = await _todoItemService.MarkDoneAsync(id);
             if (!successful)
             {
                 return BadRequest("Could not mark item as done.");
@@ -91,7 +75,6 @@ namespace AspNetCoreTodo.Controllers
             return RedirectToAction("Index");
         }
 
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateItem(TodoItem item)
         {
             if (!ModelState.IsValid)
@@ -101,10 +84,6 @@ namespace AspNetCoreTodo.Controllers
                 return RedirectToAction("Index");
             }
             
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser == null) return Challenge();
-            item.UserId = currentUser.Id;
-
             var successful = await _todoItemService.UpdateItemAsync(item);
             if (!successful)
             {

@@ -30,8 +30,6 @@ namespace AspNetCoreTodo.Models
         [Range(0, 5, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
         public int Priority { get; set; }
 
-        public string? UserId { get; set; }
-
         //Functions
 
         public string getPriority()

@@ -18,10 +18,10 @@ namespace AspNetCoreTodo.Services
             _context = context;
         }
 
-        public async Task<TodoItem[]> GetIncompleteItemsAsync(IdentityUser user)
+        public async Task<TodoItem[]> GetIncompleteItemsAsync()
         {
             var items = await _context.Items
-                .Where(x => x.IsDone == false && x.UserId == user.Id)
+                .Where(x => x.IsDone == false)
                 .ToArrayAsync();
             return items;
         }
@@ -38,7 +38,7 @@ namespace AspNetCoreTodo.Services
             return saveResult == 1;
         }
 
-        public async Task<bool> MarkDoneAsync(Guid id, IdentityUser user)
+        public async Task<bool> MarkDoneAsync(Guid id)
         {
             var item = await _context.Items
                 .Where(x => x.Id == id)
