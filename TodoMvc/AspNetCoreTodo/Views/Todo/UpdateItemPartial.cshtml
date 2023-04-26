@@ -13,8 +13,8 @@
 		<span>@Model.Title</span>
 	</td>
 	<td>
-		<select name="Priority" class="form-control item-update" id="Priority">
-			<option value="0">Select Priority</option>
+		<select name="Priority" class="form-control item-update" id="Priority" required>
+			<option value="">Select Priority</option>
 				@for (int i = 1; i < 6; i++)
 				{
 					var selected = i == Model.Priority ? "selected" : "";
